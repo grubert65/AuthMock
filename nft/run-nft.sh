@@ -6,7 +6,7 @@ GATLING_RESULTS_DIR=$PWD/results
 
 if [ ! -d "$EXPERIMENTS_DIR" ]; then
 
-  echo "Chaos-toolkit experiments directory $EXPERIMENTS_DIR not found,
+  echo "Chaos::Toolkit experiments directory $EXPERIMENTS_DIR not found,
   exiting...\n"
 
   exit 1
@@ -15,7 +15,7 @@ fi
 
 function run_experiment {
     echo "Running experiment $1"
-    chaos.pl -experiment  $EXPERIMENTS_DIR/$1.json
+    chaos.pl -experiment $EXPERIMENTS_DIR/$1.json
 }
 
 function run_simulation {
@@ -39,10 +39,10 @@ function update_report {
 
 echo "###############################################"
 echo "# First experiment:                           #"
-echo "# App under Peak load and latency in Cassandra#"
+echo "# App under Peak load and latency in Cache    #"
 echo "###############################################"
-run_simulation simulations.PeakAndSoak
-sleep 10
+# run_simulation simulations.PeakAndSoak
+# sleep 10
 run_experiment add_latency
 # 
 update_report

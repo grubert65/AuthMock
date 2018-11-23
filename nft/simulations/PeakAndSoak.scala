@@ -42,7 +42,7 @@ class PeakAndSoak extends Simulation {
       constantUsersPerSec(20) during (30 seconds),
       constantUsersPerSec(10) during (30 seconds),
       constantUsersPerSec(30) during (30 seconds),
-      constantUsersPerSec(10) during (30 seconds),
+      constantUsersPerSec(10) during (30 seconds)
     )
 
   )
