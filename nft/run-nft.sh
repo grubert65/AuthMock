@@ -15,12 +15,12 @@ fi
 
 function run_experiment {
     echo "Running experiment $1"
-    chaos.pl -experiment $EXPERIMENTS_DIR/$1.json
+    chaos.pl -experiment $EXPERIMENTS_DIR/$1.json > chaos.log 2>&1 &
 }
 
 function run_simulation {
     echo "Loading simulation $1"
-    gatling.sh -sf $GATLING_SIMULATIONS_DIR -rf $GATLING_RESULTS_DIR -m -s $1 > gatling.log 2>&1 &
+    gatling.sh -sf $GATLING_SIMULATIONS_DIR -rf $GATLING_RESULTS_DIR -m -s $1 > /tmp/gatling.log 2>&1 &
 }
 
 function update_report {
@@ -41,8 +41,8 @@ echo "###############################################"
 echo "# First experiment:                           #"
 echo "# App under Peak load and latency in Cache    #"
 echo "###############################################"
-# run_simulation simulations.PeakAndSoak
-# sleep 10
+run_simulation simulations.PeakAndSoak
+sleep 10
 run_experiment add_latency
 # 
 update_report

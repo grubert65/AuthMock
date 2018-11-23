@@ -2,20 +2,15 @@ package AuthMock;
 use Dancer2;
 use RestAPI;
 use CacheMock;
+use Data::Printer;
 
 our $VERSION = '0.1';
 
-# defaults for testing...
-set cache_params => {
-  http_verb => 'GET',
-  scheme    => 'http',
-  server    => 'localhost',
-  port      => 8080,
-  path      => 'login'
-};
-
 get '/login/:name' => sub {
     my $name = params->{name};
+
+    debug("Cache params");
+    debug( np config->{cache_params} );
 
     my $cache = RestAPI->new(
         config->{cache_params}

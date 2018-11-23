@@ -8,24 +8,62 @@
           "module_attributes": {
             "host":"localhost"
           },
-          "func": "create_proxy",
-          "attributes": {
-              "name"    : "cache-node-1",
-              "listen"  : "localhost:8090",
-              "upstream": "localhost:8080"
-          }
+          "func": "add_toxic",
+          "attributes": [
+              "cache-node-1",
+              {
+               "name"       : "400_latency",
+               "type"       : "latency",
+               "stream"     : "upstream",
+               "toxicity"   : 0.8,
+               "attributes" : { "latency": 400, "jitter": 150 }
+              }
+          ]
      },{
           "type": "perl",
           "func": "sleep",
-          "attributes": [ 2 ]
+          "attributes": [ 30 ]
      },{
           "type": "perl",
           "module": "ToxiProxy",
           "module_attributes": {
             "host":"localhost"
           },
-          "func": "delete_proxy",
-          "attributes": [ "cache-node-1" ]
+          "func": "add_toxic",
+          "attributes": [
+              "cache-node-1",
+              {
+               "name"       : "200_latency",
+               "type"       : "latency",
+               "stream"     : "upstream",
+               "toxicity"   : 0.8,
+               "attributes" : { "latency": 200, "jitter": 80 }
+              }
+          ]
+     },{
+          "type": "perl",
+          "func": "sleep",
+          "attributes": [ 20 ]
+     },{
+          "type": "perl",
+          "module": "ToxiProxy",
+          "module_attributes": {
+            "host":"localhost"
+          },
+          "func": "delete_toxic",
+          "attributes": [ "cache-node-1", "200_latency" ]
+     },{
+          "type": "perl",
+          "func": "sleep",
+          "attributes": [ 20 ]
+     },{
+          "type": "perl",
+          "module": "ToxiProxy",
+          "module_attributes": {
+            "host":"localhost"
+          },
+          "func": "delete_toxic",
+          "attributes": [ "cache-node-1", "400_latency" ]
      }
   ],
   "rollback":[

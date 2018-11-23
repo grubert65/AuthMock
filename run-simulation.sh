@@ -9,4 +9,4 @@ GATLING_RESULTS_DIR=$PWD/results
 
 echo "Loading simulation $1"
 # gatling.sh -sf $GATLING_SIMULATIONS_DIR -rf $GATLING_RESULTS_DIR -m -s $1 > gatling.log 2>&1 &
-gatling.sh -sf $GATLING_SIMULATIONS_DIR -rf $GATLING_RESULTS_DIR -s $1 
+nohup gatling.sh -sf $GATLING_SIMULATIONS_DIR -rf $GATLING_RESULTS_DIR -s $1 > /tmp/gatling.log 2>&1 &

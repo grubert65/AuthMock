@@ -18,7 +18,7 @@ class PeakAndSoak extends Simulation {
 
   // LSD cluster node ips, currently hardcoded
   val ips: List[String] = List(
-    "http://localhost:5000"
+    "http://localhost:8080"
   )
 
   val httpConf = http
@@ -39,14 +39,14 @@ class PeakAndSoak extends Simulation {
   setUp(
 
     scn.inject(
-      constantUsersPerSec(20) during (30 seconds),
-      constantUsersPerSec(10) during (30 seconds),
-      constantUsersPerSec(30) during (30 seconds),
-      constantUsersPerSec(10) during (30 seconds)
+      constantUsersPerSec(10) during (10 seconds),
+      constantUsersPerSec(5) during (10 seconds),
+      constantUsersPerSec(15) during (10 seconds),
+      constantUsersPerSec(5) during (10 seconds)
     )
 
   )
   .protocols(httpConf)
   .assertions(global.failedRequests.percent.lte(1)) 
-  .assertions(global.responseTime.percentile4.lt(50)) 
+  .assertions(global.responseTime.percentile4.lt(60)) 
 }
