@@ -9,9 +9,9 @@ $eumm_version =~ s/_//;
 
 WriteMakefile(
     NAME                => 'AuthMock',
-    AUTHOR              => q{YOUR NAME <youremail@example.com>},
+    AUTHOR              => q{Marco Masetti grubert65@gmail.com},
     VERSION_FROM        => 'lib/AuthMock.pm',
-    ABSTRACT            => 'YOUR APPLICATION ABSTRACT',
+    ABSTRACT            => 'A simple web mock app used to test network disruptions via ToxiProxy',
     ($eumm_version >= 6.3001
       ? ('LICENSE'=> 'perl')
       : ()),
@@ -24,4 +24,5 @@ WriteMakefile(
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'AuthMock-*' },
+    test                => { RECURSIVE_TEST_FILES=>1 },
 );
