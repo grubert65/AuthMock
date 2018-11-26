@@ -48,5 +48,5 @@ class PeakAndSoak extends Simulation {
   )
   .protocols(httpConf)
   .assertions(global.failedRequests.percent.lte(1)) 
-  .assertions(global.responseTime.percentile4.lt(60)) 
+  .assertions(global.responseTime.percentile4.lt(100)) 
 }

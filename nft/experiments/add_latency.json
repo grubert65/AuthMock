@@ -4,25 +4,8 @@
   "actions":[
      {
           "type": "perl",
-          "module": "ToxiProxy",
-          "module_attributes": {
-            "host":"localhost"
-          },
-          "func": "add_toxic",
-          "attributes": [
-              "cache-node-1",
-              {
-               "name"       : "400_latency",
-               "type"       : "latency",
-               "stream"     : "upstream",
-               "toxicity"   : 0.8,
-               "attributes" : { "latency": 400, "jitter": 150 }
-              }
-          ]
-     },{
-          "type": "perl",
           "func": "sleep",
-          "attributes": [ 30 ]
+          "attributes": [ 10 ]
      },{
           "type": "perl",
           "module": "ToxiProxy",
@@ -37,7 +20,28 @@
                "type"       : "latency",
                "stream"     : "upstream",
                "toxicity"   : 0.8,
-               "attributes" : { "latency": 200, "jitter": 80 }
+               "attributes" : { "latency": 500, "jitter": 150 }
+              }
+          ]
+     },{
+          "type": "perl",
+          "func": "sleep",
+          "attributes": [ 20 ]
+     },{
+          "type": "perl",
+          "module": "ToxiProxy",
+          "module_attributes": {
+            "host":"localhost"
+          },
+          "func": "add_toxic",
+          "attributes": [
+              "cache-node-1",
+              {
+               "name"       : "100_latency",
+               "type"       : "latency",
+               "stream"     : "upstream",
+               "toxicity"   : 0.8,
+               "attributes" : { "latency": 100, "jitter": 80 }
               }
           ]
      },{
@@ -51,11 +55,11 @@
             "host":"localhost"
           },
           "func": "delete_toxic",
-          "attributes": [ "cache-node-1", "200_latency" ]
+          "attributes": [ "cache-node-1", "100_latency" ]
      },{
           "type": "perl",
           "func": "sleep",
-          "attributes": [ 20 ]
+          "attributes": [ 10 ]
      },{
           "type": "perl",
           "module": "ToxiProxy",
@@ -63,7 +67,7 @@
             "host":"localhost"
           },
           "func": "delete_toxic",
-          "attributes": [ "cache-node-1", "400_latency" ]
+          "attributes": [ "cache-node-1", "200_latency" ]
      }
   ],
   "rollback":[
