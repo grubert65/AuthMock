@@ -1,0 +1,17 @@
+{
+  "actions":[
+     {
+          "type": "perl",
+          "module": "ToxiProxy",
+          "module_attributes": {
+            "host":"localhost"
+          },
+          "func": "create_proxy",
+          "attributes": {
+            "name"    : "cache-node-1",
+            "listen"  : "localhost:8090",
+            "upstream": "localhost:8100"
+          }
+     }
+  ]
+}

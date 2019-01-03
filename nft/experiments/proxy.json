@@ -1,0 +1,5 @@
+{
+  "name"    : "cache-node-1",
+  "listen"  : "localhost:8090",
+  "upstream": "localhost:8100"
+}

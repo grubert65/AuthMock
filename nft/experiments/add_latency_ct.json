@@ -1,0 +1,151 @@
+{
+  "version": "1.0.0",
+  "title": "What happens if a latency is introduced between the Auth and the Cache services",
+  "description": "We introduce a 400 ms latency", 
+  "tags": ["proxy"],
+  "configuration": {
+    "litedb_filename": "./trace.db"
+  },
+  "controls": [
+    {
+      "name": "tracing",
+      "automatic": true,
+      "provider": {
+        "type": "python",
+        "module": "chaosdb.litedb"
+      }
+    }
+  ],
+  "steady-state-hypothesis": {
+    "title": "Toxiproxy server and service are running",
+    "probes": [
+      {
+        "type": "probe",
+        "name": "toxiproxy server is running",
+        "tolerance": true,
+        "provider": {
+          "type": "python",
+          "module": "chaostp.proxy.probes",
+          "func": "server_running"
+        }
+      },{
+        "type": "probe",
+        "name": "AuthMock service is alive",
+        "tolerance": 200,
+        "provider": {
+          "type": "http",
+          "url": "http://localhost:8080/login/wsmith",
+          "headers":{
+            "Content-type":"application/json"
+          }
+        }
+      }
+    ]
+  },
+  "method": [
+    {
+      "type": "action",
+      "name": "Input Load Simulation",
+      "background": true,
+      "provider": {
+          "type": "process",
+          "path": "gatling.sh",
+          "arguments": "-rf /Users/mmi59/sky-uk/go/src/github.com/grubert65/AuthMock/scripts/results -on PeakAndSoak -sf nft -m -s simulations.PeakAndSoak"
+      }
+    },
+    {
+      "type": "action",
+      "name": "200ms latency",
+      "provider": {
+          "type": "python",
+          "module": "chaostp.proxy.actions",
+          "func": "add_toxic",
+          "arguments": {
+              "name": "cache-node-1",
+              "type": "latency",
+              "stream": "downstream",
+              "attributes": {"latency": 200}
+          }
+      },
+      "pauses": {
+          "before": 10,
+          "after": 10
+      }
+    },
+    {
+      "type": "action",
+      "name": "delete all toxics",
+      "provider": {
+          "type": "python",
+          "module": "chaostp.proxy.actions",
+          "func": "delete_all_toxics",
+          "arguments": {
+              "name": "cache-node-1"
+          }
+      }
+    },
+    {
+      "type": "action",
+      "name": "400ms latency",
+      "provider": {
+          "type": "python",
+          "module": "chaostp.proxy.actions",
+          "func": "add_toxic",
+          "arguments": {
+              "name": "cache-node-1",
+              "type": "latency",
+              "stream": "downstream",
+              "attributes": {"latency": 400}
+          }
+      },
+      "pauses": {
+          "before": 10,
+          "after": 10
+      }
+    },
+    {
+      "type": "action",
+      "name": "delete all toxics",
+      "provider": {
+          "type": "python",
+          "module": "chaostp.proxy.actions",
+          "func": "delete_all_toxics",
+          "arguments": {
+              "name": "cache-node-1"
+          }
+      }
+    },
+    {
+      "type": "action",
+      "name": "500ms latency",
+      "provider": {
+          "type": "python",
+          "module": "chaostp.proxy.actions",
+          "func": "add_toxic",
+          "arguments": {
+              "name": "cache-node-1",
+              "type": "latency",
+              "stream": "downstream",
+              "attributes": {"latency": 500, "jitter": 200}
+          }
+      },
+      "pauses": {
+          "before": 20,
+          "after": 20
+      }
+    },
+    {
+      "type": "action",
+      "name": "delete all toxics",
+      "provider": {
+          "type": "python",
+          "module": "chaostp.proxy.actions",
+          "func": "delete_all_toxics",
+          "arguments": {
+              "name": "cache-node-1"
+          }
+      }
+    }
+  ],
+  "rollbacks": []
+}
