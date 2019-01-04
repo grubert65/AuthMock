@@ -39,10 +39,10 @@ class PeakAndSoak extends Simulation {
   setUp(
 
     scn.inject(
-      constantUsersPerSec(10) during (10 seconds),
-      constantUsersPerSec(5) during (10 seconds),
-      constantUsersPerSec(15) during (10 seconds),
-      constantUsersPerSec(5) during (10 seconds)
+      constantUsersPerSec(10) during (60 seconds),
+      constantUsersPerSec(5) during (40 seconds),
+      constantUsersPerSec(25) during (80 seconds),
+      constantUsersPerSec(15) during (120 seconds)
     )
 
   )
