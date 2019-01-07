@@ -4,7 +4,11 @@
   "description": "We introduce a 400 ms latency", 
   "tags": ["proxy"],
   "configuration": {
-    "litedb_filename": "./trace.db"
+    "litedb_filename": "./trace.db",
+    "influx_host": "localhost",
+    "influx_port": 8086,
+    "influx_http_endpoint": "/write",
+    "influx_database": "chaostoolkit"
   },
   "controls": [
     {
@@ -12,7 +16,7 @@
       "automatic": true,
       "provider": {
         "type": "python",
-        "module": "chaosdb.litedb"
+        "module": "chaosdb.influx"
       }
     }
   ],
